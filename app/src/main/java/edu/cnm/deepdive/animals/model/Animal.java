@@ -11,6 +11,7 @@ public class Animal {
   private Speed speed;
   private String diet;
   private String lifespan;
+
   @SerializedName("image")
   private String imageUrl;
 
