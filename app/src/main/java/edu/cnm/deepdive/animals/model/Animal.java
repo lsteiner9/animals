@@ -5,14 +5,26 @@ import com.google.gson.annotations.SerializedName;
 
 public class Animal {
 
+  @Expose
   private String name;
+
+  @Expose
   private Taxonomy taxonomy;
+
+  @Expose
   private String location;
+
+  @Expose
   private Speed speed;
+
+  @Expose
   private String diet;
+
+  @Expose
   private String lifespan;
 
   @SerializedName("image")
+  @Expose
   private String imageUrl;
 
 
