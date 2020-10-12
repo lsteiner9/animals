@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,15 +29,18 @@ public class ImageFragment extends Fragment implements OnItemSelectedListener {
   private AnimalViewModel animalViewModel;
   private Spinner spinner;
   private List<Animal> animals;
-
+  private Toolbar toolbar;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_image, container, false);
     setUpWebView(root);
+    toolbar = root.findViewById(R.id.toolbar);
+    toolbar.setTitle(R.string.app_name);
     spinner = root.findViewById(R.id.animals_spinner);
     spinner.setOnItemSelectedListener(this);
+    ((MainActivity) getActivity()).setSupportActionBar(toolbar);
     return root;
   }
 
@@ -46,15 +50,15 @@ public class ImageFragment extends Fragment implements OnItemSelectedListener {
     animalViewModel = new ViewModelProvider(getActivity())
         .get(AnimalViewModel.class);
     animalViewModel.getAnimals().observe(getViewLifecycleOwner(), new Observer<List<Animal>>() {
-          @Override
-          public void onChanged(List<Animal> animals) {
-            ImageFragment.this.animals = animals;
-            ArrayAdapter<Animal> adapter = new ArrayAdapter<>(
-                ImageFragment.this.getContext(), R.layout.custom_spinner_item, animals);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-          }
-        });
+      @Override
+      public void onChanged(List<Animal> animals) {
+        ImageFragment.this.animals = animals;
+        ArrayAdapter<Animal> adapter = new ArrayAdapter<>(
+            ImageFragment.this.getContext(), R.layout.custom_spinner_item, animals);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+      }
+    });
   }
 
   private void setUpWebView(View root) {
