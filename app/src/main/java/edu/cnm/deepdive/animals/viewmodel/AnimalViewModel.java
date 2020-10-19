@@ -40,7 +40,7 @@ public class AnimalViewModel extends AndroidViewModel {
     return animals;
   }
 
-  public MutableLiveData<Throwable> getThrowable() {
+  public LiveData<Throwable> getThrowable() {
     return throwable;
   }
 
@@ -48,14 +48,12 @@ public class AnimalViewModel extends AndroidViewModel {
   private void loadAnimals() {
 
     animalService.getApiKey()
-    .subscribeOn(Schedulers.io())
-    .flatMap((key) -> animalService.getAnimals(key.getKey()))
-    .subscribe(
-        animals::postValue,
-        throwable::postValue
-    );
-
-
+        .subscribeOn(Schedulers.io())
+        .flatMap((key) -> animalService.getAnimals(key.getKey()))
+        .subscribe(
+            animals::postValue,
+            throwable::postValue
+        );
 
   }
 }
